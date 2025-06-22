@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>KasirKu - Riwayat Penjualan</title>
+  <link rel="stylesheet" href="/css/penjualan.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-area">
+      <h1 class="logo">KasirKu</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/produk" class="<%= currentPage === 'produk' ? 'active' : '' %>"><i class="fas fa-box"></i>
+          Produk</a></li>
+      <li><a href="/penjualan" class="<%= currentPage === 'penjualan' ? 'active' : '' %>"><i
+            class="fas fa-cash-register"></i> Penjualan</a></li>
+      <li><a href="/stok" class="<%= currentPage === 'stok' ? 'active' : '' %>"><i class="fas fa-warehouse"></i>
+          Stok</a></li>
+      <li><a href="/laporan" class="<%= currentPage === 'laporan' ? 'active' : '' %>"><i class="fas fa-chart-line"></i>
+          Laporan</a></li>
+    </ul>
+    <a href="/login" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h1>Riwayat Transaksi Penjualan</h1>
+    </div>
+    <form class="actions-bar" method="POST" action="/penjualan/hapus-semua"
+      onsubmit="return confirm('Yakin ingin hapus semua transaksi?')">
+      <button class="delete-all-btn" type="submit">🗑️ Hapus Semua</button>
+      <a href="/penjualan/cetak-pdf" class="pdf-btn" target="_blank" title="Cetak Riwayat PDF">
+        <i class="fas fa-file-pdf"></i> Export PDF
+      </a>
+      <a href="/penjualan/export-excel" class="pdf-btn" style="background-color: #2ecc71; margin-left: 10px;">
+        <i class="fas fa-file-excel"></i> Export ke Excel
+      </a>
+    </form>
+
+
+    <table class="sales-table">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Produk</th>
+          <th>Jumlah</th>
+          <th>Total</th>
+          <th>Pelanggan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% penjualanList.forEach(p=> { %>
+          <tr>
+            <td>
+              <%= new Date(p.tanggal).toLocaleString('id-ID') %>
+            </td>
+            <td>
+              <%= p.produk?.nama || 'Produk tidak tersedia' %>
+            </td>
+            <td>
+              <%= p.jumlah %>
+            </td>
+            <td>Rp <%= p.total.toLocaleString('id-ID') %>
+            </td>
+            <td>
+              <%= p.pelanggan || '-' %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-left">
+      <% if (typeof imagePath !== 'undefined' && imagePath) { %>
+        <img src="<%= imagePath %>" alt="Login Image" class="auth-image" />
+      <% } %>
+    </div>
+
+    <div class="auth-right">
+      <h1 class="auth-title">Selamat<br />Datang</h1>
+
+      <form action="/login" method="POST" class="auth-form">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required />
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required />
+
+        <div class="auth-bottom-link">
+          <span>Tidak punya akun?</span>
+          <a href="/register">daftar disini</a>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

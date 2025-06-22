@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <title>KasirKu - Tambah Produk</title>
+  <link rel="stylesheet" href="/css/produk.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-area">
+      <h1 class="logo">KasirKu</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/produk" class="<%= currentPage === 'produk' ? 'active' : '' %>"><i class="fas fa-box"></i> Produk</a></li>
+      <li><a href="/penjualan" class="<%= currentPage === 'penjualan' ? 'active' : '' %>"><i class="fas fa-cash-register"></i> Penjualan</a></li>
+      <li><a href="/stok" class="<%= currentPage === 'stok' ? 'active' : '' %>"><i class="fas fa-warehouse"></i> Stok</a></li>
+      <li><a href="/laporan" class="<%= currentPage === 'laporan' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Laporan</a></li>
+    </ul>
+    <a href="/login" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>  
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <h1 class="page-title">Tambah Produk</h1>
+    </div>
+
+    <form action="/produk" method="POST" class="product-form animate-fade">
+      <div class="form-group">
+        <label for="nama">Nama Produk</label>
+        <input type="text" name="nama" id="nama" placeholder="Masukan nama produk" required>
+      </div>
+
+      <div class="form-group">
+        <label for="harga">Harga</label>
+        <input type="number" name="harga" id="harga" placeholder="Masukan harga" required>
+      </div>
+
+      <div class="form-group">
+        <label for="stok">Stok</label>
+        <input type="number" name="stok" id="stok" placeholder="Masukan Stok" required>
+      </div>
+
+      <button type="submit" class="submit-btn">+ Simpan Produk</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <title>Sesi Penjualan</title>
+</head>
+<body>
+  <h1>Detail Sesi Penjualan</h1>
+  <p>Tanggal: <%= new Date(sesi.tanggal).toLocaleString('id-ID') %></p>
+  <table border="1">
+    <tr><th>Produk</th><th>Jumlah</th><th>Total</th></tr>
+    <% sesi.transaksi.forEach(item => { %>
+      <tr>
+        <td><%= item.produk.nama %></td>
+        <td><%= item.jumlah %></td>
+        <td>Rp <%= item.total.toLocaleString('id-ID') %></td>
+      </tr>
+    <% }) %>
+  </table>
+  <a href="/penjualan/sesi/<%= sesi._id %>/pdf">Cetak PDF</a>
+</body>
+</html>

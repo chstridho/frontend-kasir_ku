@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>KasirKu - Stok</title>
+    <link rel="stylesheet" href="/css/stok.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-area">
+          <h1 class="logo">KasirKu</h1>
+        </div>
+        <ul class="nav-links">
+          <li><a href="/produk" class="<%= currentPage === 'produk' ? 'active' : '' %>"><i class="fas fa-box"></i> Produk</a></li>
+          <li><a href="/penjualan" class="<%= currentPage === 'penjualan' ? 'active' : '' %>"><i class="fas fa-cash-register"></i> Penjualan</a></li>
+          <li><a href="/stok" class="<%= currentPage === 'stok' ? 'active' : '' %>"><i class="fas fa-warehouse"></i> Stok</a></li>
+          <li><a href="/laporan" class="<%= currentPage === 'laporan' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Laporan</a></li>
+        </ul>
+        <a href="/login" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+      
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Stok</h1>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <label for="search">Cari Produk:</label>
+            <input type="text" id="search" placeholder="Cari Produk..." onkeyup="filterProducts()">
+            <button class="delete-all-btn" onclick="confirmDeleteAll()">Hapus Semua</button>
+        </div>
+
+        <!-- Product Table -->
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>Nama Produk</th>
+                    <th>Harga</th>
+                    <th>Stok</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <% produkList.forEach(product => { %>
+                    <tr>
+                        <td><%= product.nama %></td>
+                        <td>Rp. <%= product.harga.toLocaleString('id-ID') %></td>
+                        <td><%= product.stok %></td>
+                        <td>
+                            <div class="action-buttons">
+                                <!-- Tombol Edit -->
+                                <a href="/stok/edit/<%= product._id %>" class="edit-btn">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+
+                                <!-- Tombol Hapus sebagai form POST -->
+                                <form action="/stok/hapus/<%= product._id %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="delete-btn" onclick="return confirm('Yakin ingin menghapus produk ini?');">
+                                        <i class="fas fa-trash-alt"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus Semua -->
+    <div id="deleteAllModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Konfirmasi Hapus Semua</h2>
+            <p>Apakah Anda yakin ingin menghapus semua produk?</p>
+            <div class="modal-buttons">
+                <button class="cancel-btn">Batal</button>
+                <form method="POST" action="/stok/hapus-semua">
+                    <button type="submit" class="confirm-btn">Hapus Semua</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter produk berdasarkan input pencarian
+        function filterProducts() {
+            const input = document.getElementById('search');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('product-list');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const nama = rows[i].getElementsByTagName('td')[0];
+                if (nama) {
+                    const text = nama.textContent || nama.innerText;
+                    rows[i].style.display = text.toUpperCase().includes(filter) ? "" : "none";
+                }
+            }
+        }
+
+        function confirmDeleteAll() {
+            document.getElementById('deleteAllModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('deleteAllModal').style.display = 'none';
+        }
+
+        document.querySelector('.close').addEventListener('click', closeModal);
+        document.querySelector('.cancel-btn').addEventListener('click', closeModal);
+
+        window.onclick = function (event) {
+            const modal = document.getElementById('deleteAllModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

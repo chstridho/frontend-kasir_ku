@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <title>Edit Produk - KasirKu</title>
+  <link rel="stylesheet" href="/css/produk.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo-area">
+      <h1 class="logo">KasirKu</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/produk" class="<%= currentPage === 'produk' ? 'active' : '' %>"><i class="fas fa-box"></i> Produk</a></li>
+      <li><a href="/penjualan" class="<%= currentPage === 'penjualan' ? 'active' : '' %>"><i class="fas fa-cash-register"></i> Penjualan</a></li>
+      <li><a href="/stok" class="<%= currentPage === 'stok' ? 'active' : '' %>"><i class="fas fa-warehouse"></i> Stok</a></li>
+      <li><a href="/laporan" class="<%= currentPage === 'laporan' ? 'active' : '' %>"><i class="fas fa-chart-line"></i> Laporan</a></li>
+    </ul>
+    <a href="/login" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>  
+  <div class="main-content">
+    <h2>Edit Produk</h2>
+
+    <form action="/produk/edit/<%= produk._id %>" method="POST" class="product-form">
+      <div class="form-group">
+        <label for="nama">Nama Produk</label>
+        <input type="text" id="nama" name="nama" value="<%= produk.nama %>" required />
+      </div>
+
+      <div class="form-group">
+        <label for="harga">Harga</label>
+        <input type="number" id="harga" name="harga" value="<%= produk.harga %>" required />
+      </div>
+
+      <div class="form-group">
+        <label for="stok">Stok</label>
+        <input type="number" id="stok" name="stok" value="<%= produk.stok %>" required />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">Update Produk</button>
+        <a href="/produk" class="cancel-btn">Batal</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

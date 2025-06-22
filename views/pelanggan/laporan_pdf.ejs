@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Laporan Pembelian</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background: #eee; }
+    
+  </style>
+</head>
+<body>
+  <h2>Laporan Pembelian - KasirKu</h2>
+  <p>Tanggal Cetak: <%= new Date().toLocaleDateString('id-ID') %></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Produk</th>
+        <th>Jumlah</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% let totalHarga = 0; let totalBarang = 0; %>
+      <% riwayat.forEach(r => { %>
+        <tr>
+          <td><%= new Date(r.tanggal).toLocaleDateString('id-ID') %></td>
+          <td><%= r.produk?.nama %></td>
+          <td><%= r.jumlah %></td>
+          <td>Rp <%= r.total.toLocaleString('id-ID') %></td>
+          <% totalHarga += r.total; totalBarang += r.jumlah; %>
+        </tr>
+      <% }) %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2">Total</th>
+        <th><%= totalBarang %></th>
+        <th>Rp <%= totalHarga.toLocaleString('id-ID') %></th>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+</html>

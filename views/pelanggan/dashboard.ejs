@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Pelanggan - KasirKu</title>
+  <link rel="stylesheet" href="/css/user.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h1 class="logo">KasirKu</h1>
+    <ul>
+      <li><a href="/user/dashboard" class="active">Beranda</a></li>
+    </ul>
+    <form action="/logout" method="POST">
+      <button class="logout-btn">Logout</button>
+    </form>
+  </div>
+  <div class="main-content">
+    <h1>Halo, <%= user.nama %>!</h1>
+    <p>Selamat datang di halaman pelanggan KasirKu!</p>
+
+    <h2>Belanja Produk</h2>
+    <div class="produk-grid">
+      <% produkList.forEach(p => { %>
+        <div class="produk-card">
+          <h3><%= p.nama %></h3>
+          <p>Rp <%= p.harga.toLocaleString('id-ID') %></p>
+          <form action="/user/beli" method="POST">
+            <input type="hidden" name="produkId" value="<%= p._id %>">
+            <input type="number" name="jumlah" min="1" placeholder="Jumlah" required>
+            <button type="submit">🛒 Beli</button>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+
+    <h2>Daftar Pembelian</h2>
+    <div class="actions-bar">
+      <form method="POST" action="/user/hapus-riwayat" onsubmit="return confirm('Yakin ingin menghapus semua pembelian?')">
+        <button type="submit" class="delete-all-btn">🗑️ Hapus Semua</button>
+      </form>
+      <% if (riwayat.length > 0) { %>
+        <form action="/user/dashboard/cetak" method="GET" style="margin-left: 10px;">
+          <button type="submit" class="checkout-btn">🖨️ Checkout & Cetak PDF</button>
+        </form>
+      <% } %>
+    </div>
+
+    <table class="riwayat-table">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Produk</th>
+          <th>Jumlah</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let grandTotal = 0; let totalBarang = 0; %>
+        <% riwayat.forEach(r => { %>
+          <tr>
+            <td><%= new Date(r.tanggal).toLocaleDateString('id-ID') %></td>
+            <td><%= r.produk?.nama %></td>
+            <td><%= r.jumlah %></td>
+            <td>Rp <%= r.total.toLocaleString('id-ID') %></td>
+            <% grandTotal += r.total; totalBarang += r.jumlah; %>
+          </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="2">Total</th>
+          <th><%= totalBarang %></th>
+          <th>Rp <%= grandTotal.toLocaleString('id-ID') %></th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</body>
+</html>
